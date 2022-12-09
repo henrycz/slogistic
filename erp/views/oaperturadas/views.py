@@ -25,8 +25,12 @@ class oaperturadasListView(LoginRequiredMixin, validatePermissionRequiredMixin, 
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
+                position = 1
                 for i in oaperturadas.objects.filter(fch_dam__isnull=True):
-                    data.append(i.toJSON())
+                    item = i.toJSON()
+                    item['position'] = position
+                    data.append(item)
+                    position += 1
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
